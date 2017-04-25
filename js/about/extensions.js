@@ -24,9 +24,17 @@ class ExtensionItem extends ImmutableComponent {
   constructor () {
     super()
     this.onContextMenu = this.onContextMenu.bind(this)
+    this.onInspectBackground = this.onInspectBackground.bind(this)
   }
   onContextMenu (e) {
     aboutActions.contextMenu(this.props.extension.toJS(), 'extensions', e)
+  }
+  onInspectBackground () {
+    const url = this.props.extension.get('url')
+    const background = this.props.extension.getIn(['manifest', 'background'])
+    aboutActions.createTabRequested({
+      url: url + (background.get('page') || '_generated_background_page.html')
+    })
   }
   get icon () {
     return this.props.extension.getIn(['manifest', 'icons', '128']) ||
@@ -73,7 +81,7 @@ class ExtensionItem extends ImmutableComponent {
         }
         {
           background
-          ? <a target='_new' href={this.props.extension.get('url') + (background.get('page') || '_generated_background_page.html')}>Inspect Background Page</a>
+          ? <button title='Inspect background page' onClick={this.onInspectBackground}>Inspect Background Page</button>
           : null
         }
       </div>
