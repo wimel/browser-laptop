@@ -44,6 +44,7 @@ class ExtensionItem extends ImmutableComponent {
     )
     const icon = this.icon
     const permissions = this.props.extension.getIn(['manifest', 'permissions'])
+    const background = this.props.extension.getIn(['manifest', 'background'])
 
     return <div role='listitem'
       disabled={!this.props.extension.get('enabled')}
@@ -68,6 +69,11 @@ class ExtensionItem extends ImmutableComponent {
         {
           permissions
           ? <div className='extensionPermissions'><span data-l10n-id='extensionPermissionsLabel' /> <span>{permissions.join(', ')}</span></div>
+          : null
+        }
+        {
+          background
+          ? <a target='_new' href={this.props.extension.get('url') + (background.get('page') || '_generated_background_page.html')}>Inspect Background Page</a>
           : null
         }
       </div>
