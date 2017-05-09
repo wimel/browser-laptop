@@ -37,6 +37,7 @@ const sitesReducer = (state, action, emitChanges) => {
         state = state.set('sites', siteUtil.moveSite(state.get('sites'),
           action.siteDetail, action.destinationDetail, false, false, true))
       }
+      state = state.set('sites', state.get('sites').sort(siteUtil.siteSort))
       if (syncEnabled()) {
         state = syncUtil.updateSiteCache(state, action.destinationDetail || action.siteDetail)
       }
@@ -44,6 +45,7 @@ const sitesReducer = (state, action, emitChanges) => {
     case appConstants.APP_REMOVE_SITE:
       const removeSiteSyncCallback = action.skipSync ? undefined : syncActions.removeSite
       state = state.set('sites', siteUtil.removeSite(state.get('sites'), action.siteDetail, action.tag, true, removeSiteSyncCallback))
+      state = state.set('sites', state.get('sites').sort(siteUtil.siteSort))
       if (syncEnabled()) {
         state = syncUtil.updateSiteCache(state, action.siteDetail)
       }
@@ -52,6 +54,7 @@ const sitesReducer = (state, action, emitChanges) => {
       state = state.set('sites', siteUtil.moveSite(state.get('sites'),
         action.sourceDetail, action.destinationDetail, action.prepend,
         action.destinationIsParent, false))
+      state = state.set('sites', state.get('sites').sort(siteUtil.siteSort))
       if (syncEnabled()) {
         state = syncUtil.updateSiteCache(state, action.destinationDetail)
       }

@@ -17,7 +17,6 @@ const settings = require('../../js/constants/settings')
 const {getBaseUrl, aboutUrls} = require('../../js/lib/appUrlUtil')
 const siteSettings = require('../../js/state/siteSettings')
 const messages = require('../../js/constants/messages')
-const siteUtil = require('../../js/state/siteUtil')
 const aboutHistoryState = require('../common/state/aboutHistoryState')
 const appStore = require('../../js/stores/appStore')
 const appConfig = require('../../js/constants/appConfig')
@@ -137,8 +136,8 @@ const updateAboutDetails = (tab, tabValue) => {
     allSiteSettings = allSiteSettings.mergeDeep(appState.get('temporarySiteSettings'))
   }
   const extensionsValue = appState.get('extensions')
-  const bookmarks = appState.get('sites').filter((site) => site.get('tags').includes(siteTags.BOOKMARK)).toList().sort(siteUtil.siteSort)
-  const bookmarkFolders = appState.get('sites').filter((site) => site.get('tags').includes(siteTags.BOOKMARK_FOLDER)).toList().sort(siteUtil.siteSort)
+  const bookmarks = appState.get('sites').filter((site) => site.get('tags').includes(siteTags.BOOKMARK))
+  const bookmarkFolders = appState.get('sites').filter((site) => site.get('tags').includes(siteTags.BOOKMARK_FOLDER))
   const sync = appState.get('sync')
   const braveryDefaults = siteSettings.braveryDefaults(appState, appConfig)
   const history = aboutHistoryState.getHistory(appState)
@@ -163,8 +162,8 @@ const updateAboutDetails = (tab, tabValue) => {
     tab.send(messages.EXTENSIONS_UPDATED, extensionsValue.toJS())
   } else if (location === 'about:bookmarks' && bookmarks) {
     tab.send(messages.BOOKMARKS_UPDATED, {
-      bookmarks: bookmarks.toJS(),
-      bookmarkFolders: bookmarkFolders.toJS()
+      bookmarks: bookmarks.toList().toJS(),
+      bookmarkFolders: bookmarkFolders.toList().toJS()
     })
   } else if (location === 'about:history' && history) {
     appActions.populateHistory()
