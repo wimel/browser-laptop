@@ -316,33 +316,6 @@ describe('tabState unit tests', function () {
     })
   })
 
-  describe('removeTab', function () {
-    before(function () {
-      this.appState = defaultAppState.set('tabs', Immutable.fromJS([
-        { tabId: 1 },
-        { tabId: 2 }
-      ]))
-    })
-
-    it('returns a new immutable state with the tab removed by `tabId`', function () {
-      assert.deepEqual(
-        tabState.removeTab(this.appState, { tabId: 2 }).get('tabs').toJS(),
-        [{ tabId: 1 }])
-    })
-
-    shouldValidateTabValue((tabValue) => {
-      tabState.removeTab(defaultAppState, tabValue)
-    })
-
-    shouldValidateId((tabId) => {
-      tabState.removeTab(defaultAppState, { tabId })
-    })
-
-    shouldValidateTabState((state) => {
-      tabState.removeTab(state, { tabId: 1 })
-    })
-  })
-
   describe('insertTab', function () {
     before(function () {
       this.appState = defaultAppState.set('tabs', Immutable.fromJS([
