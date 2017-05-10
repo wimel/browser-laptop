@@ -14,6 +14,7 @@ class AboutWelcome extends React.Component {
 
 const styles = StyleSheet.create({
   welcomeIframe: {
+    overflow: 'hidden',
     width: '100%',
     height: '100%',
     border: 0
