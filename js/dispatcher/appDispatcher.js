@@ -194,6 +194,7 @@ if (process.type === 'browser') {
       if (win) {
         payload.senderWindowId = win.id
       }
+      payload.senderTabId = event.sender.getId()
     }
     appDispatcher.dispatch(payload)
   }

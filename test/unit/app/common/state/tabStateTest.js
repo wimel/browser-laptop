@@ -33,7 +33,7 @@ const shouldValidateId = function (cb) {
     )
   })
 
-  it('throws an AssertionError if tabId < 1 and !== -1', function () {
+  it('throws an AssertionError if tabId < 1 and !== -1 and !== -2', function () {
     assert.throws(
       () => {
         cb(0)
@@ -41,6 +41,12 @@ const shouldValidateId = function (cb) {
       AssertionError
     )
     assert.throws(
+      () => {
+        cb(-3)
+      },
+      AssertionError
+    )
+    assert.doesNotThrow(
       () => {
         cb(-2)
       },
